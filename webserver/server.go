@@ -1,8 +1,9 @@
-package server
+package webserver
 
 import (
 	"net/http"
-	controllers "resttest/server/controllers"
+	controller "resttest/webcontrollers"
+	middleware "resttest/webmiddlewares"
 )
 
 func NewServer() *http.Server {
@@ -16,9 +17,21 @@ func NewServer() *http.Server {
 
 func registerControllers() *http.ServeMux {
 	var mux *http.ServeMux = http.NewServeMux()
-	mux.HandleFunc("GET /healthcheck", controllers.HandleHealthCheck)
 
-	mux.HandleFunc("GET /api/v1/items", controllers.HandleGetItems)
+	// Register controllers and the desired middlewares on the router (mux)
+
+	mux.HandleFunc("GET /healthcheck",
+		middleware.ChainMiddleWares(
+			controller.HandleHealthCheck,
+			middleware.LoggingMiddleWare(),
+			middleware.MethodMiddleWare()))
+
+	mux.HandleFunc("GET /api/v1/items",
+		middleware.ChainMiddleWares(
+			controller.HandleGetItems,
+			middleware.LoggingMiddleWare(),
+			middleware.MethodMiddleWare()))
+
 	// mux.HandleFunc("POST /api/v1/item", controllers.HandleHealthCheck)
 	// mux.HandleFunc("PUT /api/v1/item", controllers.HandleHealthCheck)
 	// mux.HandleFunc("PATCH /api/v1/item", controllers.HandleHealthCheck)

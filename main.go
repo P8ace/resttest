@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"resttest/server"
+	"resttest/webserver"
 )
 
 func main() {
 	fmt.Println("Hello from resttest")
 
-	error := server.NewServer().ListenAndServe()
+	error := webserver.NewServer().ListenAndServe()
 	_ = fmt.Errorf("error: %v", error)
 }
