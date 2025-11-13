@@ -1,4 +1,4 @@
-package controllers
+package webcontrollers
 
 import (
 	"encoding/json"
