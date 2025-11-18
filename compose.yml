@@ -1,0 +1,32 @@
+networks:
+    counter-net:
+volumes:
+    counter-vol:
+
+services:
+    web-fe:
+        build: . #use the Dockerfile in the current dir
+        deploy:
+            replicas: 1
+        command: python app/app.py
+        ports:
+            - target: 8080 #Container port
+              published: 5001 #Host port
+        networks:
+            - counter-net
+    # No need to define the volume as no data is persisted by this
+    # microservice
+    #    volumes:
+    #      - type: volume
+    #        source: counter-vol
+    #        target: /app
+    redis:
+        image: redis:alpine
+        deploy:
+            replicas: 1
+        networks:
+            counter-net:
+        volumes:
+            - type: volume
+              source: counter-vol #Inside the host
+              target: /data #Inside the container
