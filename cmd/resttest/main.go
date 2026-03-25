@@ -29,7 +29,7 @@ func main() {
 	// Handle SIGINT (CTRL+C) gracefully.
 	runGroup.Add(runner.SignalHandler(ctx, os.Interrupt, syscall.SIGINT, syscall.SIGTERM))
 
-	// Handle SIGINT (CTRL+C) gracefully.
+	// Handle server.
 	server := webserver.NewServer(ctx)
 	runGroup.Add(func() error {
 		return server.ListenAndServe()

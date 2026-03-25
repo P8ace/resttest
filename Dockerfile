@@ -7,7 +7,7 @@ COPY go.mod ./
 RUN go mod download
 
 COPY . .
-RUN go build -ldflags "-s -w" -v -o ./bin/resttest ./cmd/resttest/main.go
+RUN CGOENABLED=0 go build -ldflags "-s -w" -v -o ./bin/resttest ./cmd/resttest/main.go
 
 # Stage 2: Final
 FROM scratch

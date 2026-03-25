@@ -33,7 +33,6 @@ func registerControllers() http.Handler {
 		handler := otelhttp.WithRouteTag(pattern, http.HandlerFunc(handlerFunc))
 		mux.Handle(pattern, handler)
 	}
-
 	// Register controllers and the desired middlewares on the router (mux)
 	handleFunc("GET /rolldice",
 		middleware.ChainMiddleWares(
